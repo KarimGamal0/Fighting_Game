@@ -6,18 +6,23 @@
 #include "GameFramework/Character.h"
 #include "Fighting_DemoCharacter.generated.h"
 
-UCLASS(config=Game)
+UCLASS(config = Game)
 class AFighting_DemoCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
-	/** Side view camera */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class UCameraComponent* SideViewCameraComponent;
+		/** Side view camera */
+		UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+		class UCameraComponent* SideViewCameraComponent;
 
 	/** Camera boom positioning the camera beside the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class USpringArmComponent* CameraBoom;
+		class USpringArmComponent* CameraBoom;
+
+	void StartAttack1();
+	void StartAttack2();
+	void StartAttack3();
+	void StartAttack4();
 
 protected:
 
@@ -33,6 +38,15 @@ protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 	// End of APawn interface
+
+	void TakeDamage(float DamageAmount);
+
+	//Has the player used the basic attack
+	UPROPERTY(EditAnywhere, BlueprintReadwrite, Category = "Attacks")
+		bool WasFirstAttackUsed;
+
+	UPROPERTY(EditAnyWhere, BlueprintReadwrite, Category = "Health")
+		float PlayerHealth;
 
 
 public:
