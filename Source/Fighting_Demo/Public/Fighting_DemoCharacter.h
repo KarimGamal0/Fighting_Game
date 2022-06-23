@@ -24,6 +24,7 @@ class AFighting_DemoCharacter : public ACharacter
 	void StartAttack3();
 	void StartAttack4();
 
+
 protected:
 
 	/** Called for side to side input */
@@ -39,8 +40,6 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 	// End of APawn interface
 
-	void TakeDamage(float DamageAmount);
-
 	//Has the player used the basic attack
 	UPROPERTY(EditAnywhere, BlueprintReadwrite, Category = "Attacks")
 		bool WasFirstAttackUsed;
@@ -51,6 +50,8 @@ protected:
 
 public:
 	AFighting_DemoCharacter();
+
+	void TakeDamage(float DamageAmount);
 
 	/** Returns SideViewCameraComponent subobject **/
 	FORCEINLINE class UCameraComponent* GetSideViewCameraComponent() const { return SideViewCameraComponent; }

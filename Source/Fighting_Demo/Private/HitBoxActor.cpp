@@ -2,6 +2,9 @@
 
 
 #include "HitBoxActor.h"
+#include "Kismet/GameplayStatics.h" 
+#include "GameFramework/Character.h" 
+#include "Fighting_DemoCharacter.h"
 
 // Sets default values
 AHitBoxActor::AHitBoxActor()
@@ -16,6 +19,7 @@ AHitBoxActor::AHitBoxActor()
 	HitboxDisplay = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Base Mesh"));
 	HitboxDisplay->SetupAttachment(RootComponent);
 
+	HitboxDamage = 0.0f;
 }
 
 // Called when the game starts or when spawned
@@ -50,21 +54,50 @@ void AHitBoxActor::SpawnHitbox()
 		HitboxDisplay->SetMaterial(0, Proximity_Material);
 		HitboxDisplay->SetWorldLocation(HitboxLocation);
 		HitboxDisplay->SetVisibility(true);
+		CheckCollision();
 		break;
 
 	case EHitboxEnum::HB_STRIKE:
 		HitboxDisplay->SetMaterial(0, Strike_Material);
 		HitboxDisplay->SetWorldLocation(HitboxLocation);
 		HitboxDisplay->SetVisibility(true);
+		CheckCollision();
 		break;
 
 	case EHitboxEnum::HB_HURTBOX:
 		HitboxDisplay->SetMaterial(0, Hurt_Material);
 		HitboxDisplay->SetWorldLocation(HitboxLocation);
 		HitboxDisplay->SetVisibility(true);
+		CheckCollision();
 		break;
-
 	}
+}
+
+void AHitBoxActor::CheckCollision()
+{
+
+	AActor* OverlappingActor = Cast<AActor>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	//UE_LOG(LogTemp, Error, TEXT(" dsadsa %s"), *OverlappingActor->GetName());
+
+	if (!OverlappingActor)
+	{
+		//UE_LOG(LogTemp, Error, TEXT(" dsadsa %s"), *OverlappingActor->GetName());
+		UE_LOG(LogTemp, Error, TEXT("There is no character in the level"));
+		return;
+	}
+
+	if (IsOverlappingActor(OverlappingActor)) {
+		AFighting_DemoCharacter* Character = Cast<AFighting_DemoCharacter>(OverlappingActor);
+
+		if (!Character) {
+			UE_LOG(LogTemp, Error, TEXT("The Overlapping actor is not a character"));
+			return;
+		}
+
+		UE_LOG(LogTemp, Error, TEXT("Damage"));
+		Character->TakeDamage(HitboxDamage);
+	}
+
 }
 
 

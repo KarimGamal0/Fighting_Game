@@ -40,6 +40,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
 		FVector HitboxLocation;
 
+	//The damage the hitbox will do
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox")
+		float HitboxDamage;
+
 	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Materials")
 		UMaterialInterface* Proximity_Material;
 	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Materials")
@@ -58,4 +62,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 		void SpawnHitbox();
+
+	UFUNCTION(BlueprintCallable)
+		void CheckCollision();
 };
